@@ -15,11 +15,22 @@ client.connect(err => {
         res.send('Hey there! its the server.')
     })
 
-    // app.get('/addBooks', (req, res) => {
-    //     bookCollection.insertMany([{ name: 'sharin' }, { name: 'tasnim' }], (err, result) => {
-    //         console.log(err, result);
-    //     })
-    // })
+    // to get the book list
+    app.get('/books', (req, res) => {
+        bookCollection.find({})
+        .toArray((err, documents) => {
+            res.send(documents)
+        })
+    })
+
+    // inserting many books
+    app.get('/addBooks', (req, res) => {
+        const books = req.body;
+        bookCollection.insertMany(books, (err, result) => {
+            console.log(err, result);
+            res.send({count: result})
+        })
+    })
 
 
 });
