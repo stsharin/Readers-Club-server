@@ -24,7 +24,7 @@ client.connect(err => {
     })
 
     // inserting many books
-    app.get('/addBooks', (req, res) => {
+    app.post('/addBooks', (req, res) => {
         const books = req.body;
         bookCollection.insertMany(books, (err, result) => {
             console.log(err, result);
