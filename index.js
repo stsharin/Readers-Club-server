@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();
 const cors = require('cors');
 const app = express();
+const ObjectId = require('mongodb').ObjectId
 
 // port
 const port = 5000
@@ -25,6 +26,14 @@ client.connect(err => {
 
     // to get the book list from the server
     app.get('/books', (req, res) => {
+        bookCollection.find({})
+            .toArray((err, documents) => {
+                res.send(documents)
+            })
+    })
+
+    // for specific users
+    app.get('/books/:id', (req, res) => {
         bookCollection.find({})
             .toArray((err, documents) => {
                 res.send(documents)
