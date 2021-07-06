@@ -34,9 +34,10 @@ client.connect(err => {
 
     // for specific users
     app.get('/books/:id', (req, res) => {
-        bookCollection.find({})
+        const id = req.params.id;
+        bookCollection.find({_id: ObjectId(id)})
             .toArray((err, documents) => {
-                res.send(documents)
+                res.send(documents[0])
             })
     })
 
