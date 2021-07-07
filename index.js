@@ -41,31 +41,6 @@ client.connect(err => {
             })
     })
 
-    // all book and buyer details for ADMIN
-    app.get('/customerDetails', (req, res) => {
-        orderCollection.find({})
-            .toArray((err, documents) => {
-                res.send(documents)
-            })
-    })
-
-    // checkout list for specific users
-    app.get('/customerDetails/:email', (req, res) => {
-        const email = req.params.email;
-        orderCollection.find({email: email})
-            .toArray((err, documents) => {
-                res.send(documents)
-            })
-    })
-
-    // add more books
-    app.get('/addBooks', (req, res) => {
-        bookCollection.find({})
-            .toArray((err, documents) => {
-                res.send(documents)
-            })
-    })
-
     // order details
     app.post('/addOrder', (req, res) => {
         const order = req.body;
@@ -73,6 +48,24 @@ client.connect(err => {
             res.send({count: result})
         })
     })
+
+    // all order details
+    app.get('/orders', (req, res) => {
+        orderCollection.find({})
+            .toArray((err, documents) => {
+                res.send(documents)
+            })
+    })
+
+    // order details for specific user
+    app.get('/order/:email', (req, res) => {
+        const email = req.params.email;
+        orderCollection.find({email: email})
+            .toArray((err, documents) => {
+                res.send(documents)
+            })
+    })
+    
 
     // only using this api to add books - fakeData
     // app.post('/addBooks', (req, res) => {
