@@ -17,7 +17,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     const bookCollection = client.db("bookShop").collection("books");
-    const buyerCollection = client.db("bookShop").collection("buyers");
+    const orderCollection = client.db("bookShop").collection("orders");
 
     // default api
     app.get('/', (req, res) => {
@@ -43,7 +43,7 @@ client.connect(err => {
 
     // all book and buyer details for ADMIN
     app.get('/customerDetails', (req, res) => {
-        buyerCollection.find({})
+        orderCollection.find({})
             .toArray((err, documents) => {
                 res.send(documents)
             })
@@ -52,7 +52,7 @@ client.connect(err => {
     // checkout list for specific users
     app.get('/customerDetails/:email', (req, res) => {
         const email = req.params.email;
-        buyerCollection.find({email: email})
+        orderCollection.find({email: email})
             .toArray((err, documents) => {
                 res.send(documents)
             })
@@ -64,6 +64,14 @@ client.connect(err => {
             .toArray((err, documents) => {
                 res.send(documents)
             })
+    })
+
+    // order details
+    app.post('/addOrder', (req, res) => {
+        const order = req.body;
+        orderCollection.insertOne(order, (err, result) => {
+            res.send({count: result})
+        })
     })
 
     // only using this api to add books - fakeData
