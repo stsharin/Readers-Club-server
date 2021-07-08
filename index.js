@@ -65,6 +65,16 @@ client.connect(err => {
                 res.send(documents)
             })
     })
+
+    // deleting items api
+    app.delete('/deleteOrder/:id', (req, res) => {
+        const id = req.params.id;
+        orderCollection.deleteOne({_id: ObjectId(id)}, (err) => {
+            if(!err){
+                res.send({count: 1})
+            }
+        })
+    })
     
 
     // only using this api to add books - fakeData
