@@ -75,6 +75,13 @@ client.connect(err => {
             }
         })
     })
+
+    app.post('/addBook', (req, res) => {
+        const book = req.body;
+        bookCollection.insertOne(book, (err, result) => {
+            res.send({count: result.insertedCount})
+        })
+    })
     
 
     // only using this api to add books - fakeData
